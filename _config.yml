@@ -53,6 +53,7 @@ social-network-links:
   email: "contact@joelperry.net"
   rss: true  # remove this line if you don't want to show an RSS link at the bottom
   github: joel-perry
+  mastodon: hachyderm.io/@jpbass7
   twitter: joelperry_ios
   linkedin: jperryios
 # patreon: DeanAttali
@@ -70,7 +71,6 @@ social-network-links:
 #  yelp: yourname
 #  telegram: yourname
 #  calendly: yourname
-#  mastodon: instance.url/@username
 #  ORCID: your ORCID ID
 #  google-scholar: your google scholar
 #  discord: invite/invite_code or users/userid 
