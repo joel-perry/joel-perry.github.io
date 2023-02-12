@@ -47,7 +47,7 @@ extension UIContentSizeCategory: Comparable {
 }
 ````
 
-All that's left is to extend UIView with functions that mimic SwiftUI's View modifiers.
+All that's left is to extend UIView with functions that mimic SwiftUI's View modifiers. In the second definition, we need to cast and process all of the concrete range types. This is a great place to write some quick unit tests to check our implementation.
 
 ````swift
 extension UIView {
@@ -58,30 +58,30 @@ extension UIView {
   
     func contentSizeCategory<T>(_ range: T) where T: RangeExpression, T.Bound == UIContentSizeCategory {
         if let range = range as? ClosedRange<T.Bound> {
-          self.minimumContentSizeCategory = range.lowerBound
-          self.maximumContentSizeCategory = range.upperBound
+            self.minimumContentSizeCategory = range.lowerBound
+            self.maximumContentSizeCategory = range.upperBound
         }
-      else if let range = range as? PartialRangeFrom<T.Bound> {
-          self.minimumContentSizeCategory = range.lowerBound
-          self.maximumContentSizeCategory = nil
-      }
-      else if let range = range as? PartialRangeThrough<T.Bound> {
-          self.minimumContentSizeCategory = nil
-          self.maximumContentSizeCategory = range.upperBound
-      }
-      else if let range = range as? PartialRangeUpTo<T.Bound> {
-          self.minimumContentSizeCategory = nil
-          self.maximumContentSizeCategory = UIContentSizeCategory.orderedSizes.element(before: range.upperBound)
-      }
-      else if let range = range as? Range<T.Bound> {
-          self.minimumContentSizeCategory = range.lowerBound
-          self.maximumContentSizeCategory = UIContentSizeCategory.orderedSizes.element(before: range.upperBound)
-      }
-   }
+        else if let range = range as? PartialRangeFrom<T.Bound> {
+            self.minimumContentSizeCategory = range.lowerBound
+            self.maximumContentSizeCategory = nil
+        }
+        else if let range = range as? PartialRangeThrough<T.Bound> {
+            self.minimumContentSizeCategory = nil
+            self.maximumContentSizeCategory = range.upperBound
+        }
+        else if let range = range as? PartialRangeUpTo<T.Bound> {
+            self.minimumContentSizeCategory = nil
+            self.maximumContentSizeCategory = UIContentSizeCategory.orderedSizes.element(before: range.upperBound)
+        }
+        else if let range = range as? Range<T.Bound> {
+            self.minimumContentSizeCategory = range.lowerBound
+            self.maximumContentSizeCategory = UIContentSizeCategory.orderedSizes.element(before: range.upperBound)
+        }
+    }
 }
 ````
 
-One more little piece of the puzzle is the call to `.element(before:)` used above in a couple of places. This is a convenience function I use frequently.
+In order to process the half-open ranges for `PartialRangeUpTo` and `Range`, we can use a convenience function.
 
 ````swift
 extension BidirectionalCollection where Iterator.Element: Equatable {
