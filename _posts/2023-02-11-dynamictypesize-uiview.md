@@ -9,7 +9,7 @@ tags:   [uikit]
 When going from SwiftUI back to UIKit, I miss having certain view modifiers, such as`.dynamicTypeSize()`. In SwiftUI, we can limit the accessibility behavior of a View by setting a value or range of `DynamicTypeSize`. This approach is expressive and safe, since the compiler can check for valid ranges. To apply the same limits to UIView, we set single values of `UIContentSizeCategory` for `.minimumContentSizeCategory` and `.maximumContentSizeCategory`, which requires checking values by hand. The ability to set a range of sizes is very convenient, so let's bring this little piece of SwiftUI style to UIKit.
 
 ### Swift Ranges and the Comparable Protocol
-The various range types (`Range`, `ClosedRange`, etc.) all conform to the `RangeExpression` protocol, which requires the underlying values to conform to the `Comparable` protocol:
+The various range types (`Range`, `ClosedRange`, etc.) all conform to the `RangeExpression` protocol, which requires the underlying values to conform to the `Comparable` protocol.
 
 ````swift
 public protocol RangeExpression<Bound> {
@@ -17,7 +17,7 @@ public protocol RangeExpression<Bound> {
 }
 ````
 
-Since Swift 5.3, enums have the abillity to synthesize comparable conformance in most cases. In SwiftUI, DynamicTypeSize is declared as a conforming enum and the values are available for use in range expressions. The View type has two definitions for a dynamicTypeSize modifier (one for a single value and one for a range of values):
+Since Swift 5.3, comparable conformance can be synthesized in most cases. In SwiftUI, DynamicTypeSize is declared as a conforming enum and the values are available for use in range expressions. The View type has two definitions for a dynamicTypeSize modifier (one for a single value and one for a range of values).
 
 ````swift
 public func dynamicTypeSize(_ size: DynamicTypeSize) -> some View
@@ -25,7 +25,7 @@ public func dynamicTypeSize<T>(_ range: T) -> some View where T : RangeExpressio
 ````
 
 ### Constructing UIContentSizeCategory Ranges
-In UIKit, UIContentSizeCategory is declared as a struct without any comparable conformance, so the values cannot be used directly to construct a range expression. Fortunately, it is fairly easy to provide comparable conformance for UIContentSizeCategory, allowing use in ranges. We can extend UIContentSizeCategory to include the two operators necessary for conformance and an array of sizes to enable comparison of the values:
+In UIKit, UIContentSizeCategory is declared as a struct without any comparable conformance, so the values cannot be used directly to construct a range expression. Fortunately, it is fairly easy to provide comparable conformance for UIContentSizeCategory, allowing use in ranges. We can extend UIContentSizeCategory to include the two operators necessary for conformance and an array of sizes to enable comparison of the values.
 
 ````swift
 extension UIContentSizeCategory: Comparable {
@@ -47,7 +47,7 @@ extension UIContentSizeCategory: Comparable {
 }
 ````
 
-All that's left is to extend UIView with functions that mimic SwiftUI's View modifiers:
+All that's left is to extend UIView with functions that mimic SwiftUI's View modifiers.
 
 ````swift
 extension UIView {
@@ -81,7 +81,7 @@ extension UIView {
 }
 ````
 
-One more little piece of the puzzle is the `.element(before:)` function used above in a couple of places. This is a convenience I use frequently:
+One more little piece of the puzzle is the call to `.element(before:)` used above in a couple of places. This is a convenience function I use frequently.
 
 ````swift
 extension BidirectionalCollection where Iterator.Element: Equatable {
@@ -93,7 +93,7 @@ extension BidirectionalCollection where Iterator.Element: Equatable {
 ````
 
 ### Conclusion
-In UIKit, we would normally set a range of UIContentSizeCategory like this:
+In UIKit, we would normally set a range of UIContentSizeCategory like this.
 
 ````swift
 let view = UIView()
@@ -101,11 +101,11 @@ view.minimumContentSizeCategory = .small
 view.maximumContentSizeCategory = .accessibilityMedium
 ````
 
-But now, we can do this:
+But now, we can be more concise and expressive, with the added benefit of having our values checked at compile time.
 
 ````swift
 let view = UIView()
 view.contentSizeCategory(.small ... .accessibilityMedium)
 ````
 
-This is not only more concise and expressive, but gives the added benefit of checking our values at compile time. That is a small amount of work for a big win!
+That is a small amount of work for a big win!
