@@ -17,7 +17,7 @@ public protocol RangeExpression<Bound> {
 }
 ````
 
-Since Swift 5.3, comparable conformance can be synthesized in most cases. In SwiftUI, DynamicTypeSize is declared as a conforming enum and the values are available for use in range expressions. The View type has two definitions for a dynamicTypeSize modifier (one for a single value and one for a range of values).
+Since Swift 5.3, comparable conformance can be synthesized for most enums. In SwiftUI, DynamicTypeSize is declared as a conforming enum and the values are available for use in range expressions. The View type has two definitions for a dynamicTypeSize modifier (one for a single value and one for a range of values).
 
 ````swift
 public func dynamicTypeSize(_ size: DynamicTypeSize) -> some View
