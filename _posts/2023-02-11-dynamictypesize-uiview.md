@@ -6,7 +6,7 @@ date:   2023-02-11 02:02:40 -0600
 tags:   [uikit]
 ---
 
-When going from SwiftUI back to UIKit, I miss having certain view modifiers, such as`.dynamicTypeSize()`. In SwiftUI, we can limit the accessibility behavior of a View by setting a value or range of `DynamicTypeSize`. This approach is expressive and safe, since the compiler can check for valid ranges. To apply the same limits to UIView, we set single values of `UIContentSizeCategory` for `.minimumContentSizeCategory` and `.maximumContentSizeCategory`, which requires checking values by hand. The ability to set a range of sizes is very convenient, so let's bring this little piece of SwiftUI style to UIKit.
+When going from SwiftUI back to UIKit, I miss having certain view modifiers, such as `.dynamicTypeSize()`. In SwiftUI, we can limit the accessibility behavior of a View by setting a value or range of `DynamicTypeSize`. This approach is expressive and safe, since the compiler can check for valid ranges. To apply the same limits to UIView, we set single values of `UIContentSizeCategory` for `.minimumContentSizeCategory` and `.maximumContentSizeCategory`, which requires checking values by hand. The ability to set a range of sizes is very convenient, so let's bring this little piece of SwiftUI style to UIKit.
 
 ### Swift Ranges and the Comparable Protocol
 The various range types (`Range`, `ClosedRange`, etc.) all conform to the `RangeExpression` protocol, which requires the underlying values to conform to the `Comparable` protocol.
